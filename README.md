@@ -26,3 +26,4 @@ Una vez que el programa se pone en ejecucion, se mostrara la letra **'W'** en un
 
 # Licencia (License)
 
+Este proyecto cuenta con la licencia de MIT
