@@ -10,6 +10,8 @@
 #include <cmath>
 #include <GL/glut.h>
 
+#include "texture0.cpp"
+
 /*Constantes de estados posibles*/
 const int EDO_INICIAL = 0;
 const int EDO_CAYENDO = 1;
@@ -94,14 +96,27 @@ void init() {
 * inferior izquierda
 */
 void dibujarW() {
-	glColor3f(1, 0, 0);
 
+	//generacion de la textura del primer segmento
+	GLuint textura;
+	glGenTextures(1, &textura);
+	glBindTexture(GL_TEXTURE_2D, textura);
+	gluBuild2DMipmaps(GL_TEXTURE_2D, gimp_image.bytes_per_pixel, gimp_image.width, gimp_image.height, GL_RGB, GL_UNSIGNED_BYTE, gimp_image.pixel_data);
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE ,GL_REPLACE);
+
+	glEnable(GL_TEXTURE_2D);
+	glColor3f(1, 0, 0);
 	glBegin(GL_TRIANGLE_FAN);
+	glTexCoord2d(0, 0);
 	glVertex2f(0, 20);
+	glTexCoord2d(0, 1);
 	glVertex2f(0, 1);
+	glTexCoord2d(1, 0.3);
 	glVertex2f(3, 6);
+	glTexCoord2d(1, 1);
 	glVertex2f(3, 20);
 	glEnd();
+	glDisable(GL_TEXTURE_2D);
 
 	glColor3f(1, 1, 0.4);
 	glBegin(GL_TRIANGLE_FAN);
