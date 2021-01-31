@@ -1,4 +1,9 @@
 // Proyecto_2021_CG.cpp : Este archivo contiene la función "main". La ejecución del programa comienza y termina ahí.
+/*
+* Ivan Marin Roldan
+* Computacion Grafica
+* Semestre 2021-1
+*/
 //
 
 #include <iostream>
@@ -12,11 +17,15 @@ const int EDO_GOLPE_SUELO = 2;
 const int EDO_REBOTANDO = 3;
 const int EDO_HALT = 4;
 
+/*constantes de Cadenas de texto*/
+char mensajeInicial[] = "Presione \'Espacio\' para iniciar";
+char mensajeReiniciar[] = "Presione \'R\' para repetir";
+int msjInicialTam = 31;
+int msjReiniciarTam = 25;
+
 /*Valores iniciales*/
 float x = 10.0, y = 175.0;
 float t = 0.0;
-float xRebote = 0.0;
-float angulo = 0.0;
 int estadoActual = EDO_INICIAL;
 
 /*firmas de funciones*/
@@ -24,29 +33,45 @@ void dibujarW();
 void caidaLibre(float);
 void rebote(float);
 void animacion();
+void mostrarTexto(int, int, char*, int);
 
 /*
 * funciones necesarias para la visualizacion
 */
 void display() {
 	glClear(GL_COLOR_BUFFER_BIT);
-	
+
 	//std::cout << "dibujando en ( " << x << ", " << y << " )" << std::endl;
 	glPushMatrix();
 	glTranslatef(x, y, 0);
 	dibujarW();
 	glPopMatrix();
 
+
+	// textos
+	glColor3f(1, 1, 1);
+	switch (estadoActual) {
+	case EDO_INICIAL:
+		mostrarTexto(70, 15, mensajeInicial, msjInicialTam);
+		break;
+	case EDO_HALT:
+		mostrarTexto(70, 15, mensajeReiniciar, msjReiniciarTam);
+		break;
+	default:
+		break;
+	}
+
+
 	// prueba de coordenadas
-	glColor3f(0, 0, 0);
-	glPointSize(6);
-	glBegin(GL_POINTS);
-	glVertex2f(0, 0);
-	glVertex2f(199, 199);
-	glVertex2f(0, 199);
-	glVertex2f(199, 0);
-	glVertex2f(100, 100);
-	glEnd();
+	// glColor3f(0, 0, 0);
+	// glPointSize(6);
+	// glBegin(GL_POINTS);
+	// glVertex2f(0, 0);
+	// glVertex2f(199, 199);
+	// glVertex2f(0, 199);
+	// glVertex2f(199, 0);
+	// glVertex2f(100, 100);
+	// glEnd();
 
 	glutSwapBuffers();
 }
@@ -80,25 +105,25 @@ void dibujarW() {
 
 	glColor3f(1, 1, 0.4);
 	glBegin(GL_TRIANGLE_FAN);
-	glVertex2f(5, 0);
+	glVertex2f(4, 0);
+	glVertex2f(15, 20);
 	glVertex2f(11, 20);
-	glVertex2f(6, 20);
 	glVertex2f(0, 0);
 	glEnd();
 
 	glColor3f(1, 0.2, 1);
 	glBegin(GL_TRIANGLE_FAN);
-	glVertex2f(6.25f, 10);
-	glVertex2f(6.25f, 0);
-	glVertex2f(9.25f, 0);
-	glVertex2f(9.25f, 15);
+	glVertex2f(10.0f, 10);
+	glVertex2f(10.0f, 0);
+	glVertex2f(13.0f, 0);
+	glVertex2f(13.0f, 15);
 	glEnd();
 
 	glBegin(GL_TRIANGLE_FAN);
-	glVertex2f(6.25f, 0);
-	glVertex2f(9.25f, 0);
-	glVertex2f(19, 20);
-	glVertex2f(14, 20);
+	glVertex2f(10.0f, 0);
+	glVertex2f(13.0f, 0);
+	glVertex2f(22, 20);
+	glVertex2f(18, 20);
 	glEnd();
 }
 
@@ -121,7 +146,7 @@ void caidaLibre(float t) {
 }
 
 /*
-* Funcion de rebote.
+* Funcion de rebote. y = 180e^(-0.1t)|sen((2PI/20)t)|
 * Calcula la posicion y de la W durante un espacio de valores x
 */
 void rebote(float t) {
@@ -131,6 +156,7 @@ void rebote(float t) {
 	else {
 		y = 0;
 		estadoActual = EDO_HALT;
+		std::cout << "rebote terminado" << std::endl;
 	}
 }
 
@@ -142,6 +168,7 @@ void animacion() {
 	switch (estadoActual)
 	{
 	case EDO_INICIAL:
+
 		break;
 	case EDO_CAYENDO:
 		//std::cout << "t = " << t << ", y = " << y << std::endl;
@@ -157,7 +184,7 @@ void animacion() {
 		rebote(t);
 		x += 0.5;
 		t += 0.1;
-		std::cout << x << "," << y << std::endl;
+		//std::cout << x << "," << y << std::endl;
 		glutPostRedisplay();
 		break;
 	case EDO_HALT:
@@ -166,8 +193,17 @@ void animacion() {
 		break;
 	}
 }
-/*funcion de teclas especiales*/
-void teclado(unsigned char key, int x, int y) {
+
+void mostrarTexto(int x, int y, char *cadena, int cadenaSize) {
+	glRasterPos2i(x, y);
+	for (int i = 0; i < cadenaSize; i++)
+	{
+		//std::cout << cadena[i];
+		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, cadena[i]);
+	}
+}
+/*funcion de teclado*/
+void teclado(unsigned char key, int xi, int yi) {
 	switch (key)
 	{
 	case ' ': // se presiona la tecla espacio
@@ -176,6 +212,13 @@ void teclado(unsigned char key, int x, int y) {
 			estadoActual = EDO_CAYENDO;
 			std::cout << "tecla espacio presionada, cayendo" << std::endl;
 		}
+		break;
+	case 'R':// las letras R y r funcionan igual,
+	case 'r':// provocando la repeticion de la animacion
+		x = 10;
+		y = 175;
+		t = 0;
+		estadoActual = EDO_INICIAL;
 		break;
 	case 27: // salir presinando escape
 		exit(0);
@@ -188,9 +231,9 @@ void teclado(unsigned char key, int x, int y) {
 
 int main(int argc, char** argv)
 {
-    std::cout << "Universidad Nacional Autónoma de México" << std::endl;
-	std::cout << "Facultad de Ingeniería" << std::endl;
-	std::cout << "Computación Gráfica. Semestre 2021-1" << std::endl;
+    std::cout << "Universidad Nacional Autonoma de Mexico" << std::endl;
+	std::cout << "Facultad de Ingenieria" << std::endl;
+	std::cout << "Computacion Grafica. Semestre 2021-1" << std::endl;
 	std::cout << "Marin Roldan Ivan" << std::endl;
 	std::cout << "-------------------------------------------------" << std::endl;
 	glutInit(&argc, argv);
@@ -205,7 +248,7 @@ int main(int argc, char** argv)
 	glutKeyboardFunc(teclado);
 	glutIdleFunc(animacion);
 
-	
+
 	glutMainLoop();
 
 	return 0;
