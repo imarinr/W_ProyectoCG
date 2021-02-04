@@ -13,6 +13,7 @@
 #include "texture0.cpp"
 #include "door_tex.cpp"
 #include "win_tex.cpp"
+#include "wall_tex.cpp"
 
 #include "letra_H.cpp"
 #include "letra_C.cpp"
@@ -43,7 +44,7 @@ int yi = 175;
 float x = 10, y = 175;
 float t = 0.0;
 int estadoActual = EDO_INICIAL;
-GLuint texturaW, texturaPuerta, texturaVentana;
+GLuint texturaW, texturaPuerta, texturaVentana, texturaPared;
 GLuint texturaLetras[6];
 
 /*vectores de iluminacion*/
@@ -362,21 +363,30 @@ void puerta() {
 
 void pared() {
 	//material de la pared
-	glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, mat_pared_color);
+	/*glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, mat_pared_color);
 	glMaterialfv(GL_FRONT, GL_SPECULAR, mat_pared_specular);
 	glMaterialfv(GL_FRONT, GL_EMISSION, mat_pared_emision);
-	glMaterialf(GL_FRONT, GL_SHININESS, 9);
+	glMaterialf(GL_FRONT, GL_SHININESS, 9);*/
+	//textura de la pared
+	glGenTextures(1, &texturaPared);
+	glBindTexture(GL_TEXTURE_2D, texturaPared);
+	gluBuild2DMipmaps(GL_TEXTURE_2D, gimp_wall.bytes_per_pixel, gimp_wall.width, gimp_wall.height, GL_RGB, GL_UNSIGNED_BYTE, gimp_wall.pixel_data);
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glEnable(GL_TEXTURE_2D);
 	glColor3f(1, 1, 1);
 	glBegin(GL_QUADS);
-	glNormal3i(1, 1, 1);
+	glTexCoord2d(0, 1);
 	glVertex2i(0, 0);
-	glNormal3i(-1, 1, 1);
+	glTexCoord2d(10, 10);
 	glVertex2i(199, 0);
-	glNormal3i(-1, -1, 1);
+	glTexCoord2d(0, 10);
 	glVertex2i(199, 199);
-	glNormal3i(1, -1, 1);
+	glTexCoord2d(0, 0);
 	glVertex2i(0, 199);
 	glEnd();
+	glDisable(GL_TEXTURE_2D);
 }
 
 void dibujarLetrero() {
