@@ -14,6 +14,19 @@ Se trata de una animación de una letra **'W'** que cae y hace el efecto de rebo
 
 Este proyecto fue creado con OpenGL 3.7 beta y Visual Studio Comunity 2017. Para configurar su entorno de desarrollo, por favor, siga las instrucciones disponibles en el siguiente [tutorial](https://www.absingh.com/opengl/)
 
+## Configuracion adicional
+Para poder compilar el proyecto en modo *Release* se debe realizar una configuracion adicional. En Visual Studio:
+
+* Vaya a *Proyecto > propiedades*
+* Seleccione *Propiedades de configuracion* en el panel izquierdo
+* Seleccione *Vinculador*
+* Seleccione *Avanzadas*
+* En el panel derecho, seleccione la ultima opcion llamada *La imagen tiene controladores de excepciones seguros*
+* Cambie el valor a **NO**
+* De clic en *Aceptar*
+
+El proyecto deberia compilar en la configuracion *Release*
+
 ## Agregar archivo de codigo a la solucion
 
 En el tutorial anterior, queda configurado un proyecto, en el que se puede agregar el archivo _'Proyecto_2021_CG.cpp'_ que contiene la funcion main y la logica del programa completo.
