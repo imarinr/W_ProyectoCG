@@ -4,7 +4,7 @@
 
 # Vision General (Overview)
 
-Este Proyecto se realizo como parte de la materia de Computacion Grafica para el semestre 2020-1.
+Este Proyecto se realizo como parte de la materia de Computacion Grafica para el semestre 2021-1.
 
 Se trata de una animación de una letra **'W'** que cae y hace el efecto de rebotar.
 
@@ -45,26 +45,24 @@ especificando cada archivo _.lib_ en una linea.
 
 ## Agregar archivos de codigo a la solucion
 
-En el tutorial anterior, queda configurado un proyecto de Visual Studio, en el que se puede agregar el archivo _'Proyecto_2021_CG.cpp'_ que contiene la funcion main y la logica del programa completo. Tambien debe agregar los archivos de texturas que se encuentran en la misma carpeta _'Proyecto_2021_CG'_. Para agregar todos los archivos, en Visual Studio:
+Una vez configurado el proyecto de Visual Studio, se puede agregar el archivo _'Proyecto_2021_CG.cpp'_ que contiene la funcion main y la logica del programa completo. Tambien debe agregar los archivos de texturas que se encuentran en la carpeta _'Proyecto_2021_CG/'_. Para agregar todos los archivos, en Visual Studio:
 
 * Seleccione _'Proyecto > Agregar elemento existente'_
-* En la ventana que se muestra seleccione todos los archivos con extension *.cpp* que se encuentran en la carpeta _'Proyecto_2021_CG'_
+* En la ventana que se muestra seleccione todos los archivos con extension *.cpp* que se encuentran en la carpeta _'Proyecto_2021_CG/'_
 * De clic en *'Agregar'*
 
 ## Configuracion adicional
 Para poder compilar el proyecto en modo *Release* se debe realizar una configuracion adicional. En Visual Studio:
 
 * Vaya a *'Proyecto > propiedades'*
-* Seleccione *'Propiedades de configuracion'* en el panel izquierdo
-* Seleccione *'Vinculador'*
-* Seleccione *'Avanzadas'*
+* Seleccione *Propiedades de configuracion > Vinculador > Avanzadas* en el panel izquierdo
 * En el panel derecho, seleccione la ultima opcion llamada *'La imagen tiene controladores de excepciones seguros'*
 * Cambie el valor a **'NO'**
 * De clic en *'Aceptar'*
 
 El proyecto deberia compilar correctamente en la configuracion *'Release'*
 
-_NOTA: Para la configuracion 'Debug' no se necesita hacer ningun ajuste adicional_
+_NOTA: Para la configuracion 'Debug' no se necesita hacer ningun ajuste adicional._
 
 ## Compilar y ejecutar
 
@@ -76,7 +74,7 @@ Para Ejecutar el programa desde Visual Studio:
 
 # Uso del programa (usage)
 
-Una vez que el programa se pone en ejecucion, se mostrara la fachada de una casa con el letrero "Welcome Home" en una posicion fija. Para reproducir la animacion, presione la tecla *'espacio'* y la animacion empezara su curso. La letra _W_ caera y, tras varios rebotes saldra de la vista. En cualquier momento, o hasta que termine la animacion, puede presionar la tecla _'R'_ para devolver la W a su estado inicial.
+Una vez que el programa se pone en ejecucion, se mostrara la fachada de una casa con el letrero "Welcome Home" en una posicion fija. Para reproducir la animacion, presione la tecla *'Espacio'* y la animacion empezara su curso. La letra _W_ caera y, tras varios rebotes saldra de la vista. En cualquier momento, o hasta que termine la animacion, puede presionar la tecla _'R'_ para devolver la W a su estado inicial.
 
 # Licencia (License)
 

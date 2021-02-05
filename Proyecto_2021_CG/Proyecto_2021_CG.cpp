@@ -4,7 +4,6 @@
 * Computacion Grafica
 * Semestre 2021-1
 */
-//
 
 #include <iostream>
 #include <cmath>
@@ -37,10 +36,10 @@ int msjReiniciarTam = 25;
 
 /*Valores iniciales*/
 int xi = 10;
+int yi = 175;
 int anchoLetra = 22;
 int altoLetra = 20;
 int interlineado = 3;
-int yi = 175;
 float x = 10, y = 175;
 float t = 0.0;
 int estadoActual = EDO_INICIAL;
@@ -68,11 +67,13 @@ GLfloat mat_seg3_color[] = { 0.5, 0.5, 0, 1 };
 GLfloat mat_seg3_specular[] = { 0.9, 0.9, 0, 1.0 };
 GLfloat mat_seg3_emision[] = { 0.5, 0.5, 0, 1.0 };
 
-GLfloat mat_pared_color[] = { 0, 0, 0, 1 };
+/*GLfloat mat_pared_color[] = { 0, 0, 0, 1 };
 GLfloat mat_pared_specular[] = { 0.7, 0.7, 0.7, 1 };
-GLfloat mat_pared_emision[] = { 1, 1, 1, 1 };
+GLfloat mat_pared_emision[] = { 1, 1, 1, 1 };*/
 
 /*firmas de funciones*/
+void init();
+void display();
 void dibujarW();
 void caidaLibre(float);
 void rebote(float);
@@ -99,21 +100,29 @@ void display() {
 	dibujarLetrero();
 
 	//Dibujo de la letra W
+	glDisable(GL_LIGHTING);
+	glColor3f(1, 1, 1);
+	glBegin(GL_POLYGON);
+	glVertex2f(xi, yi);
+	glVertex2f(xi + anchoLetra, yi);
+	glVertex2f(xi + anchoLetra, yi + altoLetra);
+	glVertex2f(xi, yi + altoLetra);
+	glEnd();
+	glEnable(GL_LIGHTING);
 	glPushMatrix();
 	glTranslatef(x, y, 0);
 	dibujarW();
 	glPopMatrix();
 
 	glDisable(GL_LIGHTING);
-
 	// textos
 	glColor3f(0, 0.3, 0.6);
 	switch (estadoActual) {
 	case EDO_INICIAL:
-		mostrarTexto(70, 15, mensajeInicial, msjInicialTam);
+		mostrarTexto(130, 15, mensajeInicial, msjInicialTam);
 		break;
 	case EDO_HALT:
-		mostrarTexto(70, 15, mensajeReiniciar, msjReiniciarTam);
+		mostrarTexto(130, 15, mensajeReiniciar, msjReiniciarTam);
 		break;
 	default:
 		break;
@@ -277,6 +286,9 @@ void animacion() {
 	}
 }
 
+/*
+* Muestra una cadena de texto en la posicion indicada
+*/
 void mostrarTexto(int x, int y, char *cadena, int cadenaSize) {
 	glRasterPos2i(x, y);
 	for (int i = 0; i < cadenaSize; i++)
@@ -286,6 +298,9 @@ void mostrarTexto(int x, int y, char *cadena, int cadenaSize) {
 	}
 }
 
+/*
+* Crea el efecto de iluminacion de la letra W
+*/
 void iluminacion()
 {
 	glEnable(GL_LIGHT0);
@@ -312,14 +327,18 @@ void iluminacion()
 	glLightf(GL_LIGHT2, GL_SPOT_EXPONENT, 2.0);
 }
 
+/*
+* Llama a las funciones que crearn los componentes de la fachada de la casa
+*/
 void dibujarCasa()
 {
 	pared();
 	puerta();
 	ventana();
-	
+
 }
 
+/* Crea el poligono que contiene la textura de la ventana de la casa */
 void ventana() {
 	//textura de la ventana
 	glGenTextures(1, &texturaVentana);
@@ -340,6 +359,7 @@ void ventana() {
 	glDisable(GL_TEXTURE_2D);
 }
 
+/* Crea el poligono que contiene la textura de la puerta de la casa */
 void puerta() {
 	//textura de la puerta
 	glGenTextures(1, &texturaPuerta);
@@ -361,6 +381,7 @@ void puerta() {
 	glDisable(GL_TEXTURE_2D);
 }
 
+/* Crea el poligono que contiene la textura del acabado de la pared de la casa */
 void pared() {
 	//material de la pared
 	/*glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, mat_pared_color);
@@ -389,6 +410,7 @@ void pared() {
 	glDisable(GL_TEXTURE_2D);
 }
 
+/*Dibuja las letras del letrero "Welcome Home, a excepcionde la letra W"*/
 void dibujarLetrero() {
 	glGenTextures(6, texturaLetras);
 	glBindTexture(GL_TEXTURE_2D, texturaLetras[0]);
@@ -545,6 +567,7 @@ void teclado(unsigned char key, int xi, int yi) {
 	glutPostRedisplay();
 }
 
+/*funcion principal*/
 int main(int argc, char** argv)
 {
     std::cout << "Universidad Nacional Autonoma de Mexico" << std::endl;
